@@ -1,11 +1,13 @@
 import { sql } from "drizzle-orm";
-import { text, varchar, timestamp, pgTable } from "drizzle-orm/pg-core";
+import { text, varchar, timestamp, pgTableCreator } from "drizzle-orm/pg-core";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { nanoid } from "@/lib/utils";
 
-export const resources = pgTable("resources", {
+export const createTable = pgTableCreator((name) => `rag_chat_${name}`);
+
+export const resources = createTable("resources", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),

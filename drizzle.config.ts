@@ -7,5 +7,6 @@ export default {
   out: "./lib/db/migrations",
   dbCredentials: {
     url: env.DATABASE_URL,
-  }
+  },
+  tablesFilter: ["rag_chat_*"],
 } satisfies Config;
