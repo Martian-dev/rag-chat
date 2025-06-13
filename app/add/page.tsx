@@ -1,6 +1,6 @@
 "use client";
 
-import { createResource } from "@/lib/actions/resources";
+// import { createResource } from "@/lib/actions/resources";
 import { generateEmbeddings } from "@/lib/ai/embedding";
 import { useRef } from "react";
 
@@ -15,7 +15,7 @@ export default function AddContext() {
           if (!content || typeof content !== "string")
             return { error: "context is required." };
           try {
-            await createResource({ content });
+            // await createResource({ content });
           } catch (e) {
             console.log("[ADDING CONTEXT ERROR] ", e);
           }
