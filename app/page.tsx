@@ -8,7 +8,7 @@ export default function Chat() {
   });
 
   return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+    <div className="flex flex-col w-full max-w-md py-32 mx-auto stretch">
       <div className="space-y-4">
         {messages.map((m) => (
           <div key={m.id} className="whitespace-pre-wrap">
@@ -28,7 +28,7 @@ export default function Chat() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="sticky bottom-0">
         <input
           className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
           value={input}
