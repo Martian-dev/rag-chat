@@ -1,6 +1,7 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
+import { User, Bot } from "lucide-react";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -12,8 +13,10 @@ export default function Chat() {
       <div className="space-y-4">
         {messages.map((m) => (
           <div key={m.id} className="whitespace-pre-wrap">
-            <div>
-              <div className="font-bold">{m.role}</div>
+            <div className="flex gap-3">
+              <div className="font-bold">
+                {m.role == "user" ? <User /> : <Bot />}
+              </div>
               <p>
                 {m.content.length > 0 ? (
                   m.content
@@ -28,9 +31,12 @@ export default function Chat() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="sticky bottom-0">
+      <form
+        onSubmit={handleSubmit}
+        className="sticky bottom-0 bg-gray-600 text-white"
+      >
         <input
-          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border-none active:border-none rounded shadow-xl bg-gray-600 text-white"
           value={input}
           placeholder="Say something..."
           onChange={handleInputChange}
