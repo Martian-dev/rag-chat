@@ -3,17 +3,32 @@ import { streamText, tool } from "ai";
 import { z } from "zod";
 // import { createResource } from "@/lib/actions/resources";
 import { findRelevantContent } from "@/lib/ai/embedding";
+import { NextResponse } from "next/server";
+import { currentUser, auth } from "@clerk/nextjs/server";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
+  const { userId } = await auth();
+
+  // Protect the route by checking if the user is signed in
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  // Use `currentUser()` to get the Backend API User object
+  const userPh = (await currentUser())?.phoneNumbers[0];
+
+  if (!userPh) {
+    return new NextResponse("No Phone Number", { status: 403 });
+  }
 
   const result = streamText({
     model: google("gemini-2.0-flash"),
     maxRetries: 4,
-    system: `You are a helpful assistant, who is supposed to aid the user in their queries. Always check your knowledge base before answering any questions.
+    system: `You are a helpful assistant, who is supposed to aid the user in their queries. The user's phone number is ${userPh.phoneNumber}. Always check your knowledge base before answering any questions.
     Only respond to questions using information from the get information tool call, do not use your own knowledge, but you should reason with the given knowledge.
     if no relevant information is found in the tool calls, respond, "Sorry, I don't know."`,
     messages,
