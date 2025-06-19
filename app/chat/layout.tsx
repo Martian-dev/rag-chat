@@ -1,3 +1,4 @@
+import SideNav from "@/components/ui/sidenav";
 import { auth } from "@clerk/nextjs/server";
 
 export default function ChatLayout({
@@ -6,5 +7,10 @@ export default function ChatLayout({
   children: React.ReactNode;
 }>) {
   auth.protect();
-  return <>{children}</>;
+  return (
+    <div className="flex">
+      <SideNav />
+      {children}
+    </div>
+  );
 }

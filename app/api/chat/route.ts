@@ -1,16 +1,18 @@
 import { google } from "@ai-sdk/google";
-import { streamText, tool } from "ai";
+import { appendResponseMessages, streamText, tool, Message } from "ai";
 import { z } from "zod";
 // import { createResource } from "@/lib/actions/resources";
 import { findRelevantContent } from "@/lib/ai/embedding";
 import { NextResponse } from "next/server";
 import { currentUser, auth } from "@clerk/nextjs/server";
+import { saveChat } from "@/lib/actions/queries";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { id, messages }: { id: string; messages: Array<Message> } =
+    await req.json();
   const { userId } = await auth();
 
   // Protect the route by checking if the user is signed in
@@ -30,8 +32,28 @@ export async function POST(req: Request) {
     maxRetries: 4,
     system: `You are a helpful assistant, who is supposed to aid the user in their queries. The user's phone number is ${userPh.phoneNumber}. Always check your knowledge base before answering any questions.
     Only respond to questions using information from the get information tool call, do not use your own knowledge, but you should reason with the given knowledge.
-    if no relevant information is found in the tool calls, respond, "Sorry, I don't know."`,
+    if no relevant information is found in the tool calls, respond, "Sorry, I don't know.". Respond to the user in Markdown format.`,
     messages,
+    onFinish: async ({ response }) => {
+      if (userId) {
+        try {
+          await saveChat({
+            id,
+            messages: appendResponseMessages({
+              messages,
+              responseMessages: response.messages,
+            }),
+            userId: userId,
+          });
+        } catch (error) {
+          console.error("Failed to save chat: ", error);
+        }
+      }
+    },
+    experimental_telemetry: {
+      isEnabled: true,
+      functionId: "stream-text",
+    },
     tools: {
       // addResource: tool({
       //   description: `add a resource to your knowledge base.
