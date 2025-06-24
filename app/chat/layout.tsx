@@ -8,9 +8,11 @@ export default function ChatLayout({
 }>) {
   auth.protect();
   return (
-    <div className="flex">
+    <div className="flex h-full">
       <SideNav />
-      {children}
+      <div className="flex-1 flex justify-center">
+        {children}
+      </div>
     </div>
   );
 }

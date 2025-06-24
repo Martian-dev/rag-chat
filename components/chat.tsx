@@ -22,7 +22,7 @@ export default function ChatInterface({
   });
 
   return (
-    <div className="flex flex-col w-full max-w-2xl pt-4 py-32 mx-auto stretch">
+    <div className="flex flex-col w-full max-w-2xl pt-4 py-32">
       <div className="space-y-4">
         {messages.map((message, index) => (
           <PreviewMessage
@@ -37,10 +37,10 @@ export default function ChatInterface({
 
       <form
         onSubmit={handleSubmit}
-        className="sticky bottom-0 bg-gray-600 text-white"
+        className="sticky bottom-0 w-full max-w-2xl mx-auto px-4"
       >
         <input
-          className="fixed bottom-0 w-full max-w-2xl p-2 mb-8 border-none active:border-none rounded shadow-xl bg-gray-600 text-white"
+          className="w-full p-3 mb-8 border border-zinc-600 rounded-lg shadow-xl bg-zinc-700 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500"
           value={input}
           placeholder="Say something..."
           onChange={handleInputChange}
