@@ -5,8 +5,8 @@ export default function Chat() {
   const id = generateUUID();
 
   return (
-    <main>
-      <ChatInterface key={id} id={id} initialMessages={[]} />
+    <main className="flex flex-col min-h-screen w-full">
+      <ChatInterface key={id} id={id} initialMessages={[]} isNewChat={true} />
     </main>
   );
 }

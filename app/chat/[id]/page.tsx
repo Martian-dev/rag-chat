@@ -26,8 +26,12 @@ export default async function ChatThreadPage({
   }
 
   return (
-    <main>
-      <ChatInterface id={chatFromDb.id} initialMessages={chatFromDb.messages} />
+    <main className="flex flex-col min-h-screen w-full">
+      <ChatInterface
+        id={chatFromDb.id}
+        initialMessages={chatFromDb.messages}
+        isNewChat={false}
+      />
     </main>
     // <ChatInterface id={chatFromDb.id} initialMessages={[]} />
   );

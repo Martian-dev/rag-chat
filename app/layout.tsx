@@ -27,7 +27,7 @@ export default function RootLayout({
         <body
           className={`${inter.className} h-screen w-full bg-zinc-800 text-white`}
         >
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
+          <header className="flex justify-end items-center p-4 gap-4 h-16 w-fit fixed right-0">
             <SignedOut>
               <SignInButton />
             </SignedOut>
