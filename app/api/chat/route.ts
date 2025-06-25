@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: google("gemini-2.0-flash"),
     maxRetries: 4,
-    system: `You are a helpful assistant, who is supposed to aid the user in their queries. The user's phone number is ${userPh.phoneNumber}. Always check your knowledge base before answering any questions.
+    system: `You are a helpful assistant, who is supposed to aid the user in their queries. The user's phone number is ${userPh.phoneNumber}. Read, understand what the user is trying to ask, frame a better phrased sentence/keywords for those sentences, and then call the getInformation tool with that to get the required information for the user.
     Only respond to questions using information from the get information tool call, do not use your own knowledge, but you should reason with the given knowledge.
     if no relevant information is found in the tool calls, respond, "Sorry, I don't know.". Respond to the user in Markdown format.`,
     messages,
