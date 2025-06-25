@@ -68,7 +68,11 @@ export async function POST(req: Request) {
       getInformation: tool({
         description: `get information from your knowledge base to answer questions.`,
         parameters: z.object({
-          question: z.string().describe("the user's question"),
+          question: z
+            .string()
+            .describe(
+              "Keywords, better phrased sentence about the information needed to answer the user's query.",
+            ),
         }),
         execute: async ({ question }) => findRelevantContent(question),
       }),
